@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Жоғалған цифрлық кодты тап!</title>
+<style>
+:root{--bg:#080d20;--panel:#111b38;--panel2:#172448;--blue:#54c7ff;--purple:#9a7cff;--text:#f4f7ff;--muted:#b8c4e5;--green:#39d6a3;--red:#ff7185}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 15% 5%,#26356e 0,transparent 32%),radial-gradient(circle at 90% 30%,#34205e 0,transparent 28%),var(--bg);color:var(--text);font-family:Arial,sans-serif;min-height:100vh}
+.wrap{max-width:1000px;margin:auto;padding:24px 16px 50px}.hero{text-align:center;padding:30px 18px 24px}.tag{display:inline-block;border:1px solid #5c72bd;border-radius:99px;padding:7px 13px;color:#c9d7ff;font-size:13px;letter-spacing:.5px}
+h1{font-size:clamp(30px,6vw,52px);margin:16px 0 10px;line-height:1.08;background:linear-gradient(90deg,#fff,#77d9ff,#b49aff);-webkit-background-clip:text;color:transparent}
+.sub{color:var(--muted);max-width:680px;margin:0 auto;line-height:1.6}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0}.stat,.card{background:linear-gradient(145deg,#152346,#101832);border:1px solid #2c3e70;border-radius:18px;padding:17px;box-shadow:0 12px 30px #0003}
+.stat strong{display:block;font-size:25px;color:var(--blue);margin-bottom:4px}.stat span{font-size:12px;color:var(--muted)}
+.progressbox{margin:18px 0 24px}.progresslabel{display:flex;justify-content:space-between;color:var(--muted);font-size:13px;margin-bottom:8px}.bar{height:10px;background:#263252;border-radius:20px;overflow:hidden}.fill{height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--purple));transition:width .35s}
+.stages{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;margin:20px 0}.stage{border:1px solid #33436f;background:#121d3a;color:#b8c4e5;border-radius:13px;padding:12px 5px;text-align:center;font-size:12px}.stage b{display:block;font-size:20px;margin-bottom:5px}.stage.active{border-color:var(--blue);color:#fff;box-shadow:0 0 18px #54c7ff33}.stage.done{border-color:var(--green);color:var(--green)}
+.card{padding:clamp(18px,4vw,30px)}.eyebrow{color:var(--blue);font-size:12px;font-weight:bold;letter-spacing:1.5px;text-transform:uppercase}.card h2{font-size:clamp(23px,4vw,32px);margin:8px 0}.desc{color:var(--muted);line-height:1.55}
+.question{font-weight:bold;font-size:18px;margin:23px 0 14px}.options{display:grid;gap:10px}.option{width:100%;text-align:left;background:#1a294d;border:1px solid #3a4e80;color:var(--text);padding:14px 16px;border-radius:12px;font-size:15px;cursor:pointer;transition:.2s}.option:hover{border-color:var(--blue);transform:translateY(-1px)}.option.selected{border-color:var(--blue);background:#203b62}.option.correct{border-color:var(--green);background:#123e3a}.option.wrong{border-color:var(--red);background:#492337}.feedback{min-height:28px;margin:14px 0;color:var(--muted);line-height:1.5}.feedback.good{color:var(--green)}.feedback.bad{color:#ff9aaa}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.btn{border:0;border-radius:12px;padding:13px 20px;font-weight:bold;cursor:pointer;font-size:14px}.primary{background:linear-gradient(90deg,#42c5f5,#8b78ff);color:#071329}.secondary{background:#24345c;color:#e7edff}.btn:disabled{opacity:.45;cursor:not-allowed}
+.final{text-align:center}.trophy{font-size:58px}.certificate{border:1px dashed #6e86c8;border-radius:16px;padding:20px;margin:18px 0;background:#0c1731}.certificate h3{color:#f5d98b;font-size:23px}.hidden{display:none}.note{color:#8fa0c9;font-size:12px;text-align:center;margin-top:22px}
+@media(max-width:600px){.stats{gap:7px}.stat{padding:12px 8px}.stat strong{font-size:21px}.stages{grid-template-columns:repeat(5,minmax(0,1fr));gap:5px}.stage{padding:9px 2px;font-size:10px}.stage b{font-size:17px}.wrap{padding-left:12px;padding-right:12px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+  <span class="tag">ИНФОРМАТИКА • ЦИФРЛЫҚ КВЕСТ</span>
+  <h1>Жоғалған цифрлық кодты тап!</h1>
+  <p class="sub">Бес кезеңнен өтіп, логикаңды, алгоритмдік ойлауыңды және бағдарламалау дағдыларыңды сына. Әр дұрыс жауап сені құпия қазынаға жақындатады!</p>
+</header>
+<section class="stats">
+  <div class="stat"><strong id="score">0</strong><span>ЖИНАЛҒАН ҰПАЙ</span></div>
+  <div class="stat"><strong id="stageCount">0 / 5</strong><span>ОРЫНДАЛҒАН КЕЗЕҢ</span></div>
+  <div class="stat"><strong id="percent">0%</strong><span>ЖАЛПЫ НӘТИЖЕ</span></div>
+</section>
+<div class="progressbox">
+  <div class="progresslabel"><span>Квест барысы</span><span id="progressText">0%</span></div>
+  <div class="bar"><div class="fill" id="progress"></div></div>
+</div>
+<nav class="stages" id="stageNav" aria-label="Квест кезеңдері">
+  <div class="stage active"><b>🔐</b>QR-қақпа</div><div class="stage"><b>🧩</b>Логика</div><div class="stage"><b>🤖</b>Алгоритм</div><div class="stage"><b>💻</b>Кодтау</div><div class="stage"><b>🏆</b>Қазына</div>
+</nav>
+<main class="card" id="game">
+  <div class="eyebrow" id="eyebrow">1-КЕЗЕҢ • 10 ҰПАЙ</div>
+  <h2 id="title">QR-қақпа – Цифрлық әлемге саяхат</h2>
+  <p class="desc" id="description">Цифрлық әлемнің қақпасын ашу үшін құрылғылар мен олардың қызметін анықта.</p>
+  <div class="question" id="question"></div>
+  <div class="options" id="options"></div>
+  <div class="feedback" id="feedback" aria-live="polite">Бір дұрыс жауапты таңда.</div>
+  <div class="actions"><button class="btn primary" id="checkBtn" disabled>Жауапты тексеру</button><button class="btn secondary hidden" id="nextBtn">Келесі кезең →</button></div>
+</main>
+<section class="card final hidden" id="final">
+  <div class="trophy">🏆</div><div class="eyebrow">МИССИЯ ОРЫНДАЛДЫ</div>
+  <h2>Құттықтаймыз, цифрлық зерттеуші!</h2>
+  <p class="desc">Сен бес кезеңнің барлығынан өттің. Цифрлық қазына ашылды!</p>
+  <div class="certificate"><h3>ЦИФРЛЫҚ КВЕСТ СЕРТИФИКАТЫ</h3><p>«Жоғалған цифрлық кодты тап!» квестін аяқтағаны үшін</p><strong id="finalScore">100 / 100 ұпай</strong><p id="rank">Цифрлық сарапшы</p></div>
+  <div class="actions" style="justify-content:center"><button class="btn primary" onclick="window.print()">Нәтижені басып шығару</button><button class="btn secondary" onclick="restart()">Қайта бастау</button></div>
+</section>
+<p class="note">Авторлық оқу материалы • Информатика пәні • 5–9 сыныптарға арналған</p>
+</div>
+<script>
+const stages=[
+{label:"QR-қақпа",points:10,title:"Цифрлық әлемге саяхат",desc:"Цифрлық әлемнің қақпасын ашу үшін құрылғылар мен олардың қызметін анықта.",q:"Компьютердің негізгі есептеу және басқару құрылғысы қайсы?",opts:["Процессор","Монитор","Пернетақта","Принтер"],correct:0,explain:"Процессор командаларды орындайды және компьютер жұмысын басқарады."},
+{label:"Логика әлемі",points:20,title:"Жасырын заңдылық",desc:"Сандар тізбегіндегі заңдылықты анықта.",q:"2, 4, 8, 16, ? Келесі санды тап.",opts:["18","24","32","30"],correct:2,explain:"Әр сан алдыңғы санды 2-ге көбейту арқылы алынған: 16 × 2 = 32."},
+{label:"Алгоритм лабиринті",points:20,title:"Роботқа жол көрсет",desc:"Робот бастапқы нүктеден оңға 2 қадам, жоғары 1 қадам жүруі керек.",q:"Роботқа берілетін дұрыс командалар тізбегі қайсы?",opts:["Жоғары → Оңға → Оңға","Оңға → Оңға → Жоғары","Солға → Оңға → Жоғары"],correct:1,explain:"Алдымен оңға екі рет, содан кейін жоғары бір рет жүреді."},
+{label:"Кодтау бекеті",points:20,title:"Жас бағдарламашы",desc:"Python бағдарламасының нәтижесін есепте. Амалдардың орындалу ретін ескер.",q:"Код экранға қандай сан шығарады?  a = 5;  b = 3;  print(a + b * 2)",opts:["16","13","11","10"],correct:2,explain:"Алдымен көбейту орындалады: 3 × 2 = 6. Содан кейін 5 + 6 = 11."},
+{label:"Білім қазынасы",points:30,title:"Құпия кодты тап!",desc:"Соңғы сұраққа дұрыс жауап беріп, цифрлық қазынаны аш.",q:"Ақпараттың ең кіші өлшем бірлігі қалай аталады?",opts:["Байт","Бит","Килобайт","Мегабайт"],correct:1,explain:"Бит – ақпараттың ең кіші өлшем бірлігі. Қазына ашылды!"}
+];
+let current=0,score=0,completed=[],selected=null,answered=false;
+const $=id=>document.getElementById(id);
+function render(){
+ const s=stages[current];selected=null;answered=false;
+ $("eyebrow").textContent=`${current+1}-КЕЗЕҢ • ${s.points} ҰПАЙ`;
+ $("title").textContent=`${s.label} – ${s.title}`;$("description").textContent=s.desc;
+ $("question").textContent=s.q;$("feedback").textContent="Бір дұрыс жауапты таңда.";$("feedback").className="feedback";
+ $("options").innerHTML="";
+ s.opts.forEach((o,i)=>{const b=document.createElement("button");b.className="option";b.textContent=String.fromCharCode(65+i)+") "+o;b.onclick=()=>choose(i);$("options").appendChild(b)});
+ $("checkBtn").disabled=true;$("checkBtn").classList.remove("hidden");$("nextBtn").classList.add("hidden");
+ updateStats();updateNav();
+}
+function choose(i){if(answered)return;selected=i;[...$("options").children].forEach((b,j)=>b.classList.toggle("selected",j===i));$("checkBtn").disabled=false}
+function check(){
+ if(selected===null||answered)return;answered=true;const s=stages[current],buttons=[...$("options").children],correct=selected===s.correct;
+ buttons[s.correct].classList.add("correct");if(!correct)buttons[selected].classList.add("wrong");
+ if(correct){score+=s.points;completed.push(current);$("feedback").textContent="Дұрыс жауап! "+s.explain;$("feedback").className="feedback good"}
+ else{$("feedback").textContent="Бұл жолы дұрыс болмады. "+s.explain;$("feedback").className="feedback bad"}
+ $("checkBtn").classList.add("hidden");$("nextBtn").classList.remove("hidden");$("nextBtn").textContent=current===4?"Нәтижені көру →":"Келесі кезең →";updateStats();updateNav();
+}
+function next(){if(current<4){current++;render()}else showFinal()}
+function updateStats(){const done=completed.length,p=Math.round(done/5*100);$("score").textContent=score;$("stageCount").textContent=done+" / 5";$("percent").textContent=p+"%";$("progress").style.width=p+"%";$("progressText").textContent=p+"%"}
+function updateNav(){[...$("stageNav").children].forEach((el,i)=>{el.className="stage"+(i===current?" active":"")+(completed.includes(i)?" done":"")})}
+function showFinal(){$("game").classList.add("hidden");$("stageNav").classList.add("hidden");$("final").classList.remove("hidden");$("finalScore").textContent=score+" / 100 ұпай";$("rank").textContent=score>=90?"Цифрлық сарапшы":score>=70?"Білімді зерттеуші":score>=50?"Жас бағдарламашы":"Ізденуші зерттеуші";$("score").textContent=score;$("stageCount").textContent="5 / 5";$("percent").textContent="100%";$("progress").style.width="100%";$("progressText").textContent="100%"}
+function restart(){current=0;score=0;completed=[];$("final").classList.add("hidden");$("game").classList.remove("hidden");$("stageNav").classList.remove("hidden");render();window.scrollTo({top:0,behavior:"smooth"})}
+$("checkBtn").addEventListener("click",check);$("nextBtn").addEventListener("click",next);render();
+</script>
+</body></html>
